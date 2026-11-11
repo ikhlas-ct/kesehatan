@@ -86,7 +86,7 @@
             <div>
                 <h5 class="ph-title">Daftar Konten</h5>
                 <ol class="ph-breadcrumb">
-                    <li><a href="{{ Route::has('dashboard') ? route('dashboard') : url('/') }}">Dashboard</a></li>
+                    <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     <li><span class="bc-active">Konten</span></li>
                 </ol>
             </div>

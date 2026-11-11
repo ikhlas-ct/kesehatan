@@ -2,7 +2,7 @@
 <div class="sidebar-logo">
     <!-- Logo Header -->
     <div class="logo-header" data-background-color="dark">
-        <a href="{{ route('dinsos.dashboard') }}" class="logo d-flex align-items-center">
+        <a href="{{ route('admin.dashboard') }}" class="logo d-flex align-items-center">
             {{-- Gunakan accessor logo_url agar path storage/ selalu benar --}}
             <img src="{{ $settings->logo_url }}"
                 alt="navbar brand" class="navbar-brand" height="50" />
@@ -28,11 +28,35 @@
     <div class="sidebar-content">
         <ul class="nav nav-secondary">
 
+            <!-- Dashboard -->
+            <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.dashboard') }}">
+                    <i class="fas fa-home"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+
             <!-- Konten -->
             <li class="nav-item {{ request()->routeIs('konten.*') ? 'active' : '' }}">
                 <a href="{{ route('konten.index') }}">
                     <i class="fas fa-newspaper"></i>
                     <p>Konten</p>
+                </a>
+            </li>
+
+            <!-- Profil -->
+            <li class="nav-item {{ request()->routeIs('profil.*') ? 'active' : '' }}">
+                <a href="{{ route('profil.edit') }}">
+                    <i class="fas fa-user-circle"></i>
+                    <p>Profil</p>
+                </a>
+            </li>
+
+            <!-- Lihat Beranda (halaman publik) -->
+            <li class="nav-item">
+                <a href="{{ route('beranda') }}" target="_blank" rel="noopener">
+                    <i class="fas fa-globe"></i>
+                    <p>Lihat Beranda</p>
                 </a>
             </li>
 

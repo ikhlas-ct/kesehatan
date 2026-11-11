@@ -34,7 +34,7 @@ $(document).ready(function () {
         data.append('image', file);
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            url: "{{ route('blog.upload.image') }}",
+            url: "{{ route('konten.upload-image') }}",
             method: 'POST',
             data: data,
             contentType: false,

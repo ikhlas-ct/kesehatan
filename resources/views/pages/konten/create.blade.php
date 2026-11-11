@@ -107,7 +107,7 @@
             <div>
                 <h5 class="ph-title">Tambah Konten</h5>
                 <ol class="ph-breadcrumb">
-                    <li><a href="{{ Route::has('dashboard') ? route('dashboard') : url('/') }}">Dashboard</a></li>
+                    <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ route('konten.index') }}">Konten</a></li>
                     <li><span class="bc-active">Tambah</span></li>
                 </ol>

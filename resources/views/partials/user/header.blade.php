@@ -1,38 +1,16 @@
 <div class="main-header-logo">
     <div class="logo-header" data-background-color="dark">
         @php
-            $role = auth()->user()->role;
+            $user = auth()->user();
 
-            // Route dashboard sesuai role
-            $dashboardRoute = match ($role) {
-                'admin_dinsos' => route('dinsos.dashboard'),
-                'admin_panti'  => route('admin_panti.dashboard'),
-                default        => route('donatur.dashboard'),
-            };
+            $profilNama  = $user->username;
+            $profilEmail = $user->email ?? 'Tidak ada email';
 
-            // Route profil sesuai role
-            $profilRoute = match ($role) {
-                'admin_dinsos' => route('pegawai.profil'),
-                'admin_panti'  => route('admin_panti.profil'),
-                default        => route('donatur.profil'),
-            };
-
-            // Data profil (nama, email, foto) sesuai role
-            $profilData = match ($role) {
-                'admin_dinsos' => auth()->user()->pegawai,
-                'admin_panti'  => auth()->user()->pengurus,
-                default        => auth()->user()->donatur,
-            };
-
-            $profilNama  = $profilData?->nama ?? auth()->user()->username;
-            $profilEmail = $profilData?->email ?? auth()->user()->email ?? 'Tidak ada email';
-
-            $profilFoto = !empty($profilData?->foto_profil) && file_exists(public_path($profilData->foto_profil))
-                ? asset($profilData->foto_profil)
-                : asset('default-image/default-user.png');
+            // foto_url = accessor di model User (null kalau belum ada foto)
+            $profilFoto = $user->foto_url ?? asset('default-image/default-user.png');
         @endphp
 
-        <a href="{{ $dashboardRoute }}" class="logo">
+        <a href="{{ route('admin.dashboard') }}" class="logo">
             {{-- Gunakan accessor logo_url agar path storage/ selalu benar --}}
             <img src="{{ $settings->logo_url }}" alt="Logo" height="20">
         </a>
@@ -68,23 +46,20 @@
                                 <div class="u-text">
                                     <h4>{{ $profilNama }}</h4>
                                     <p class="text-muted">{{ $profilEmail }}</p>
-                                    <a href="{{ $profilRoute }}" class="btn btn-xs btn-secondary btn-sm">
-                                        View Profile
-                                    </a>
                                 </div>
                             </div>
                         </li>
                         <li>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ $dashboardRoute }}">
+                            <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                                 Dashboard
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                onclick="event.preventDefault(); document.getElementById('logout-form-header').submit();">
                                 Logout
                             </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form-header" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
                         </li>

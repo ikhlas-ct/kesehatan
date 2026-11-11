@@ -39,36 +39,11 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        $user = Auth::user();
-
-        if (! $user->is_active) {
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
-            return back()->withErrors([
-                'login' => 'Akun Anda tidak aktif, hubungi administrator.',
-            ]);
-        }
-
-        // Redirect berdasarkan role
-        switch ($user->role) {
-            case 'admin':
-                return redirect()->route('admin.dashboard')->with('success', 'Login berhasil');
-            case 'pemilik':
-                return redirect()->route('pemilik.dashboard')->with('success', 'Login berhasil');
-            case 'produsen':
-                return redirect()->route('produsen.dashboard')->with('success', 'Login berhasil');
-        }
-
-        // Fallback jika role tidak dikenali
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return back()->withErrors([
-            'login' => 'Role tidak dikenali, hubungi administrator.',
-        ]);
+        // Tabel users belum punya kolom is_active/role, jadi semua user
+        // yang berhasil login langsung masuk ke dashboard.
+        return redirect()
+            ->intended(route('admin.dashboard'))
+            ->with('success', 'Selamat datang, ' . Auth::user()->username . '!');
     }
 
     public function logout(Request $request)
