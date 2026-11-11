@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KontenController;
 use App\Http\Controllers\Login\AuthController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\WebsiteSettingController;
 use Illuminate\Support\Facades\Route;
 
 // ── Halaman publik (tanpa login) ─────────────────────────────
@@ -26,6 +27,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // Profil user yang login (edit saja)
     Route::get('profil', [ProfilController::class, 'edit'])->name('profil.edit');
     Route::put('profil', [ProfilController::class, 'update'])->name('profil.update');
+
+    // Pengaturan website (satu baris data, edit saja)
+    Route::get('pengaturan-website', [WebsiteSettingController::class, 'edit'])->name('website-setting.edit');
+    Route::put('pengaturan-website', [WebsiteSettingController::class, 'update'])->name('website-setting.update');
 
     // Upload gambar Summernote (harus sebelum resource)
     Route::post('konten/upload-image', [KontenController::class, 'uploadImage'])

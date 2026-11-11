@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Konten;
+use App\Models\WebsiteSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +25,7 @@ class BerandaController extends Controller
      ========================================================= */
     public function index()
     {
-        $semua = Konten::terbit()->latest('tanggal_terbit')->take(7)->get();
+        $semua = Konten::terbit()->latest('tanggal_terbit')->take(6)->get();
 
         $utama   = $semua->first();
         $terbaru = $semua->count() > 1 ? $semua->skip(1) : $semua;
@@ -44,6 +45,7 @@ class BerandaController extends Controller
             ]);
 
         return view('beranda.index', [
+            'settings'       => WebsiteSetting::ambil(),
             'artikelUtama'   => $utama ? $this->ubah($utama) : null,
             'artikelTerbaru' => $terbaru->map(fn ($k) => $this->ubah($k))->values(),
             'topik'          => $topik,
@@ -73,7 +75,12 @@ class BerandaController extends Controller
         $semuaKategori = Konten::terbit()
             ->select('kategori')->distinct()->orderBy('kategori')->pluck('kategori');
 
-        return view('beranda.daftar', compact('artikel', 'semuaKategori', 'kategori'));
+        return view('beranda.daftar', [
+            'settings'      => WebsiteSetting::ambil(),
+            'artikel'       => $artikel,
+            'semuaKategori' => $semuaKategori,
+            'kategori'      => $kategori,
+        ]);
     }
 
     /* =========================================================
@@ -98,6 +105,7 @@ class BerandaController extends Controller
             ->map(fn ($k) => $this->ubah($k));
 
         return view('beranda.detail', [
+            'settings'  => WebsiteSetting::ambil(),
             'artikel'   => $this->ubah($konten),
             'penulis'   => $konten->penulis,
             'isi'       => $isi,

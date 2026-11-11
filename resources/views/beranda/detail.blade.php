@@ -1,6 +1,6 @@
 @extends('layouts.front')
 
-@section('title', $artikel['judul'] . ' - SehatKita')
+@section('title', $artikel['judul'] . ' - ' . $settings->nama)
 
 @section('content')
 

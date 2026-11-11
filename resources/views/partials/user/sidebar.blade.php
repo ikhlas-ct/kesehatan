@@ -4,8 +4,10 @@
     <div class="logo-header" data-background-color="dark">
         <a href="{{ route('admin.dashboard') }}" class="logo d-flex align-items-center">
             {{-- Gunakan accessor logo_url agar path storage/ selalu benar --}}
-            <img src="{{ $settings->logo_url }}"
-                alt="navbar brand" class="navbar-brand" height="50" />
+            @if($settings->logo_url)
+                <img src="{{ $settings->logo_url }}"
+                    alt="navbar brand" class="navbar-brand" height="50" />
+            @endif
             <span class="ms-2 text-white">{{ $settings->nama ?? 'Nama Website' }}</span>
         </a>
 
@@ -41,6 +43,14 @@
                 <a href="{{ route('konten.index') }}">
                     <i class="fas fa-newspaper"></i>
                     <p>Konten</p>
+                </a>
+            </li>
+
+            <!-- Pengaturan Website -->
+            <li class="nav-item {{ request()->routeIs('website-setting.*') ? 'active' : '' }}">
+                <a href="{{ route('website-setting.edit') }}">
+                    <i class="fas fa-cog"></i>
+                    <p>Pengaturan Website</p>
                 </a>
             </li>
 
